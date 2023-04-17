@@ -10,6 +10,7 @@ func genLoad(rounds int, input chan []byte) {
 func addPadding(input chan []byte, reuseAllocation bool) {
 
 	paddingBytes := make([]byte, paddingBytesNeeded)
+	destination := make([]byte, 0, paddingBytesNeeded+10)
 	for {
 		select {
 		case inputBytes, ok := <-input:
@@ -17,10 +18,10 @@ func addPadding(input chan []byte, reuseAllocation bool) {
 				break
 			}
 			if reuseAllocation {
-				_ = append(inputBytes, paddingBytes...)
+				destination = append(destination, inputBytes...)
+				destination = append(destination, paddingBytes...)
 			} else {
-				newpaddingBytes := make([]byte, paddingBytesNeeded)
-				_ = append(inputBytes, newpaddingBytes...)
+				_ = append(inputBytes, paddingBytes...)
 			}
 		}
 	}

@@ -12,7 +12,7 @@ const (
 	charset            = "abcdefghijklmnopqrstuvwxyz"
 	inputlength        = 6
 	filepath           = "./out.txt"
-	paddingBytesNeeded = 2000
+	paddingBytesNeeded = 8192
 )
 
 func main() {
@@ -27,8 +27,8 @@ func main() {
 	switch *profilePtr {
 	case "cpu":
 		defer profile.Start(profile.CPUProfile, profile.ProfilePath(".")).Stop()
-	case "heap":
-		defer profile.Start(profile.MemProfileHeap, profile.ProfilePath(".")).Stop()
+	case "mem":
+		defer profile.Start(profile.MemProfile, profile.ProfilePath(".")).Stop()
 	case "trace":
 		defer profile.Start(profile.TraceProfile, profile.ProfilePath(".")).Stop()
 	case "block":
